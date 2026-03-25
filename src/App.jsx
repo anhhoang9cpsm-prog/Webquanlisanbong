@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import OwnerDashboard from "c:/Users/Admin/Desktop/vah/Quanlisanbong/src/pages/Ownerdashboard";
+import CustomerDashboard from "./pages/CustomerDashboard.jsx";
 import Fields from "./pages/Fields.jsx";
 import Booking from "./pages/Booking.jsx";
 
@@ -9,11 +11,21 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* AUTH */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/fields" element={<Fields />} />
-        <Route path="/booking" element={<Booking />} />
+
+        {/* OWNER */}
+        <Route path="/owner" element={<OwnerDashboard />} />
+        <Route path="/owner/fields" element={<Fields />} />
+        <Route path="/owner/booking" element={<Booking />} />
+
+        {/* CUSTOMER */}
+        <Route path="/customer" element={<CustomerDashboard />} />
+        <Route path="/customer/booking" element={<Booking />} />
+
+        {/* NOT FOUND */}
+        <Route path="*" element={<h2>404 - Không tìm thấy trang</h2>} />
       </Routes>
     </BrowserRouter>
   );

@@ -13,8 +13,27 @@
     "vite": "^8.0.0"
   },
   "dependencies": {
+    "axios": "^1.13.6",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.1"
-  }
+  },
+  "description": "��#\u0000 \u0000W\u0000e\u0000b\u0000q\u0000u\u0000a\u0000n\u0000l\u0000i\u0000s\u0000a\u0000n\u0000b\u0000o\u0000n\u0000g\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anhhoang9cpsm-prog/Webquanlisanbong.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anhhoang9cpsm-prog/Webquanlisanbong/issues"
+  },
+  "homepage": "https://github.com/anhhoang9cpsm-prog/Webquanlisanbong#readme"
 }

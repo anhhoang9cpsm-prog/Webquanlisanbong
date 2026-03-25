@@ -1,33 +1,87 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 function Register() {
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "customer",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate("/dashboard");
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/register", form);
+
+      alert(res.data.message);
+
+      if (res.data.message === "Đăng ký thành công!") {
+        navigate("/"); // quay về login
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Có lỗi xảy ra!");
+    }
   };
 
   return (
     <main className="auth-page">
       <section className="auth-card">
         <h1 className="title">Tạo tài khoản</h1>
-        <p className="subtitle">Đăng ký để bắt đầu quản lý sân bóng của bạn.</p>
+        <p className="subtitle">Đăng ký để bắt đầu.</p>
 
         <form className="form" onSubmit={handleSubmit}>
-          <label htmlFor="fullName">
+          <label>
             Họ và tên
-            <input id="fullName" name="fullName" placeholder="Nguyễn Văn A" required />
+            <input
+              name="username"
+              placeholder="Nguyễn Văn A"
+              required
+              onChange={handleChange}
+            />
           </label>
 
-          <label htmlFor="email">
+          <label>
             Email
-            <input id="email" name="email" type="email" placeholder="admin@sanbong.vn" required />
+            <input
+              name="email"
+              type="email"
+              placeholder="admin@sanbong.vn"
+              required
+              onChange={handleChange}
+            />
           </label>
 
-          <label htmlFor="password">
+          <label>
             Mật khẩu
-            <input id="password" name="password" type="password" placeholder="••••••••" required />
+            <input
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              required
+              onChange={handleChange}
+            />
+          </label>
+
+          {/* 🔥 THÊM ROLE */}
+          <label>
+            Bạn là
+            <select name="role" onChange={handleChange}>
+              <option value="customer">Khách đặt sân</option>
+              <option value="owner">Chủ sân</option>
+            </select>
           </label>
 
           <button className="btn btn-primary" type="submit">
