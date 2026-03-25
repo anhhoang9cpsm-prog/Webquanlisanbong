@@ -7,7 +7,7 @@ function CustomerDashboard() {
 				<strong>Trang Khách Hàng</strong>
 				<nav>
 					<Link to="/customer">Trang chủ</Link>
-					<Link to="/booking">Đặt sân</Link>
+					<Link to="/customer/booking">Đặt sân</Link>
 					<Link to="/">Đăng xuất</Link>
 				</nav>
 			</header>
@@ -16,7 +16,7 @@ function CustomerDashboard() {
 				<article className="card col-6">
 					<h3>Đặt sân ngay</h3>
 					<p>Chọn sân và khung giờ phù hợp</p>
-					<Link className="btn btn-primary" to="/booking">
+					<Link className="btn btn-primary" to="/customer/booking">
 						Đặt sân
 					</Link>
 				</article>

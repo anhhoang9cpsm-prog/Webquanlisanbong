@@ -75,7 +75,7 @@ function Register() {
             />
           </label>
 
-          {/* 🔥 THÊM ROLE */}
+          {/* THÊM ROLE */}
           <label>
             Bạn là
             <select name="role" onChange={handleChange}>

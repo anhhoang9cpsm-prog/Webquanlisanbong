@@ -1,78 +1,52 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Booking() {
-	return (
-		<main className="page">
-			<header className="topbar">
-				<div>
-					<strong>Quản lý lịch đặt sân</strong>
-				</div>
-				<nav className="topbar-links">
-					<Link to="/dashboard">Dashboard</Link>
-					<Link to="/fields">Sân bóng</Link>
-					<Link to="/booking">Đặt sân</Link>
-				</nav>
-			</header>
+  const [fields, setFields] = useState([]);
+  const [time, setTime] = useState("");
 
-			<section className="grid">
-				<article className="card col-6">
-					<h3>Tạo lịch đặt mới</h3>
-					<form className="form">
-						<label htmlFor="fieldName">
-							Sân
-							<select id="fieldName" name="fieldName" defaultValue="mini-a">
-								<option value="mini-a">Sân mini A</option>
-								<option value="seven-b">Sân 7 người B</option>
-							</select>
-						</label>
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/fields")
+      .then(res => setFields(res.data));
+  }, []);
 
-						<label htmlFor="date">Ngày</label>
-						<input id="date" type="date" />
+  const handleBooking = async (fieldId) => {
+    const token = localStorage.getItem("token");
 
-						<label htmlFor="time">Khung giờ</label>
-						<input id="time" type="time" />
+    await axios.post(
+      "http://localhost:5000/api/booking",
+      { fieldId, time },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-						<button className="btn btn-primary" type="button">
-							Lưu lịch đặt
-						</button>
-					</form>
-				</article>
+    alert("Đặt sân thành công");
+  };
 
-				<article className="card col-6">
-					<h3>Ghi chú vận hành</h3>
-					<p className="muted">Xác nhận cọc trước khi giữ sân vào khung giờ cao điểm.</p>
-					<div className="actions">
-						<span className="status status-open">Sẵn sàng nhận lịch</span>
-					</div>
-				</article>
+  return (
+    <div>
+      <h1>Đặt sân</h1>
 
-				<article className="card col-12">
-					<h3>Lịch gần đây</h3>
-					<table className="table">
-						<thead>
-							<tr>
-								<th>Khách hàng</th>
-								<th>Sân</th>
-								<th>Giờ</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Nguyễn Minh</td>
-								<td>Sân mini A</td>
-								<td>19:00 - 20:30</td>
-							</tr>
-							<tr>
-								<td>Hoàng Long</td>
-								<td>Sân 7 người B</td>
-								<td>17:30 - 19:00</td>
-							</tr>
-						</tbody>
-					</table>
-				</article>
-			</section>
-		</main>
-	);
+      <input
+        placeholder="Nhập giờ (VD: 18:00)"
+        onChange={(e) => setTime(e.target.value)}
+      />
+
+      {fields.map(field => (
+        <div key={field._id}>
+          <h3>{field.name}</h3>
+          <p>{field.type} - {field.price} VND</p>
+
+          <button onClick={() => handleBooking(field._id)}>
+            Đặt sân
+          </button>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default Booking;

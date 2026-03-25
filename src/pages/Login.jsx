@@ -1,41 +1,68 @@
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        navigate("/dashboard");
-    };
+	const handleSubmit = async (event) => {
+		event.preventDefault();
 
-    return (
-        <main className="auth-page">
-            <section className="auth-card">
-                <h1 className="title">Đăng nhập hệ thống</h1>
-                <p className="subtitle">Quản lý sân, lịch đặt và doanh thu nhanh chóng.</p>
+		const email = event.target.email.value;
+		const password = event.target.password.value;
 
-                <form className="form" onSubmit={handleSubmit}>
-                    <label htmlFor="email">
-                        Email
-                        <input id="email" name="email" type="email" placeholder="admin@sanbong.vn" required />
-                    </label>
+		try {
+			const res = await axios.post(
+				"http://localhost:5000/api/login",
+				{ email, password }
+			);
 
-                    <label htmlFor="password">
-                        Mật khẩu
-                        <input id="password" name="password" type="password" placeholder="••••••••" required />
-                    </label>
+			console.log(res.data.role);
 
-                    <button className="btn btn-primary" type="submit">
-                        Đăng nhập
-                    </button>
-                </form>
+			// lưu token + role
+			localStorage.setItem("token", res.data.token);
+			localStorage.setItem("role", res.data.role);
 
-                <p className="auth-switch">
-                    Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
-                </p>
-            </section>
-        </main>
-    );
+			// phân quyền
+			if (res.data.role === "owner") {
+				navigate("/owner");
+			} else {
+				navigate("/customer");
+			}
+
+		} catch (err) {
+			console.log(err);
+			alert("Đăng nhập thất bại");
+		}
+	};
+
+	return (
+		<main className="auth-page">
+			<section className="auth-card">
+				<h1 className="title">Đăng nhập hệ thống</h1>
+				<p className="subtitle">Quản lý sân, lịch đặt và doanh thu nhanh chóng.</p>
+
+				<form className="form" onSubmit={handleSubmit}>
+					<label htmlFor="email">
+						Email
+						<input id="email" name="email" type="email" placeholder="admin@sanbong.vn" required />
+					</label>
+
+					<label htmlFor="password">
+						Mật khẩu
+						<input id="password" name="password" type="password" placeholder="••••••••" required />
+					</label>
+
+					<button className="btn btn-primary" type="submit">
+						Đăng nhập
+					</button>
+				</form>
+
+				<p className="auth-switch">
+					Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+				</p>
+			</section>
+		</main>
+	);
 }
 
 export default Login;
