@@ -4,15 +4,17 @@ const cors = require("cors");
 
 const app = express();
 
-const fieldRoutes = require("./routes/field");
+app.use(express.json());
+app.use(cors());
+
+// routes
+const fieldRoutes = require("./routes/fields");
 const bookingRoutes = require("./routes/booking");
+const authRoutes = require("./routes/auth");
 
 app.use("/api/fields", fieldRoutes);
 app.use("/api/booking", bookingRoutes);
-
-// middleware
-app.use(express.json());
-app.use(cors());
+app.use("/api", authRoutes);
 
 // connect MongoDB
 mongoose.connect("mongodb://127.0.0.1:27017/sanbong")
@@ -28,6 +30,3 @@ app.get("/", (req, res) => {
 app.listen(5000, () => {
   console.log("Server chạy tại http://localhost:5000");
 });
-const authRoutes = require("./routes/auth");
-
-app.use("/api", authRoutes);

@@ -5,9 +5,15 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 // thêm sân (owner)
 router.post("/", authMiddleware(["owner"]), async (req, res) => {
-  const { name, type, price } = req.body;
+  const { name, type, price, image } = req.body;
 
-  const field = new Field({ name, type, price });
+  const field = new Field({
+    name,
+    type,
+    price,
+    image, 
+  });
+
   await field.save();
 
   res.json({ message: "Thêm sân thành công" });

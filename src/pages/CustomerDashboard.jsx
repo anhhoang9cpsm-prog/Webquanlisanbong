@@ -5,7 +5,7 @@ function CustomerDashboard() {
 		<main className="page">
 			<header className="topbar">
 				<strong>Trang Khách Hàng</strong>
-				<nav>
+				<nav className="navbar">
 					<Link to="/customer">Trang chủ</Link>
 					<Link to="/customer/booking">Đặt sân</Link>
 					<Link to="/">Đăng xuất</Link>

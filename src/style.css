@@ -260,3 +260,19 @@ a:hover {
     font-size: 26px;
   }
 }
+.navbar {
+  display: flex;
+  gap: 25px;
+  background: #eee;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: blue;
+}
+
+.navbar a:hover {
+  color: red;
+}
