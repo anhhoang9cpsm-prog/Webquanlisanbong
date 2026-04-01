@@ -8,6 +8,7 @@ import Fields from "./pages/Fields.jsx";
 import Booking from "./pages/Booking.jsx";
 import BookingHistory from "./pages/BookingHistory.jsx";
 import Payment from "./pages/Payment.jsx";
+import ManageBookings from "./pages/ManageBookings.jsx";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route path="/owner" element={<OwnerDashboard />} />
         <Route path="/owner/fields" element={<Fields />} />
         <Route path="/owner/booking" element={<Booking />} />
+        <Route path="/owner/requests" element={<ManageBookings />} />
+        <Route path="/owner/history" element={<BookingHistory />} />
 
         {/* CUSTOMER */}
         <Route path="/customer" element={<CustomerDashboard />} />
