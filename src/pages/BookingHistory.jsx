@@ -23,7 +23,6 @@ function BookingHistory() {
         return;
       }
 
-      // Owner xem tất cả booking, Customer xem booking của mình
       const endpoint = role === "owner" 
         ? "http://localhost:5000/api/booking"
         : "http://localhost:5000/api/customer/bookings";
@@ -36,25 +35,25 @@ function BookingHistory() {
       setError("");
     } catch (err) {
       console.error(err);
-      setError("Không thể tải lịch sử đặt sân");
+      setError("Khong the tai lich su dat san");
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = async (bookingId) => {
-    if (!window.confirm("Bạn chắc chắn muốn hủy đặt sân này?")) return;
+    if (!window.confirm("Ban chac chan muon huy dat san nay?")) return;
 
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`http://localhost:5000/api/booking/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      alert("Hủy đặt sân thành công");
+      alert("Huy dat san thanh cong");
       fetchBookings();
     } catch (err) {
       console.error(err);
-      alert("Hủy đặt sân thất bại");
+      alert("Huy dat san that bai");
     }
   };
 
@@ -64,17 +63,17 @@ function BookingHistory() {
     <main className="page">
       <header className="topbar">
         <strong>
-          {role === "owner" ? "Lịch Đặt Sân" : "Lịch Sử Đặt Sân"}
+          {role === "owner" ? "Lich Dat San" : "Lich Su Dat San"}
         </strong>
         <nav className="navbar">
           <Link to={role === "owner" ? "/owner" : "/customer"}>
-            {role === "owner" ? "Dashboard" : "Trang chủ"}
+            {role === "owner" ? "Dashboard" : "Trang chu"}
           </Link>
           <Link to={role === "owner" ? "/owner/fields" : "/customer/booking"}>
-            {role === "owner" ? "Quản lý sân" : "Đặt sân"}
+            {role === "owner" ? "Quan ly san" : "Dat san"}
           </Link>
           <Link to="/" onClick={() => localStorage.clear()}>
-            Đăng xuất
+            Dang xuat
           </Link>
         </nav>
       </header>
@@ -82,67 +81,63 @@ function BookingHistory() {
       {error && <div className="alert alert-error">{error}</div>}
 
       {loading ? (
-        <div className="loading">Đang tải...</div>
+        <div className="loading">Dang tai...</div>
       ) : bookings.length === 0 ? (
         <div className="empty-state">
-          <h3>Chưa có lịch đặt sân</h3>
-          <p>Hãy đặt sân ngay để bắt đầu</p>
+          <h3>Chua co lich dat san</h3>
+          <p>Hay dat san ngay de bat dau</p>
           <Link className="btn btn-primary" to={role === "owner" ? "/owner/fields" : "/customer/booking"}>
-            {role === "owner" ? "Quản lý sân" : "Đặt sân ngay"}
+            {role === "owner" ? "Quan ly san" : "Dat san ngay"}
           </Link>
         </div>
       ) : (
         <section className="bookings-list">
-          <h2>
-            {role === "owner" ? `Tổng cộng: ${bookings.length} lịch đặt` : `Lịch sử đặt sân (${bookings.length})`}
+          <h2 className="section-title">
+            {role === "owner" ? `Tong cong: ${bookings.length} lich dat` : `Lich su dat san (${bookings.length})`}
           </h2>
 
-          <div className="table-container">
-            <table className="bookings-table">
-              <thead>
-                <tr>
-                  {role === "owner" && <th>Khách hàng</th>}
-                  <th>Sân</th>
-                  <th>Loại sân</th>
-                  <th>Giá</th>
-                  <th>Khung giờ</th>
-                  <th>Ngày đặt</th>
-                  {role === "customer" && <th>Hành động</th>}
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((booking) => (
-                  <tr key={booking._id}>
-                    {role === "owner" && (
-                      <td>{booking.userId || "N/A"}</td>
-                    )}
-                    <td className="field-name">
-                      {booking.fieldId?.name || "Không rõ"}
-                    </td>
-                    <td className="field-type">
-                      {booking.fieldId?.type || "N/A"}
-                    </td>
-                    <td className="field-price">
-                      {booking.fieldId?.price?.toLocaleString("vi-VN")} đ
-                    </td>
-                    <td className="booking-time">{booking.time}</td>
-                    <td className="booking-date">
+          <div className="bookings-grid">
+            {bookings.map((booking) => (
+              <div key={booking._id} className="booking-card">
+                <div className="booking-header">
+                  <div className="booking-field">
+                    <h3 className="field-name">{booking.fieldId?.name || "Khong ro"}</h3>
+                    <span className="field-type">{booking.fieldId?.type || "N/A"}</span>
+                  </div>
+                  <div className="booking-price">
+                    {booking.fieldId?.price?.toLocaleString("vi-VN")} d
+                  </div>
+                </div>
+
+                <div className="booking-details">
+                  <div className="detail-item">
+                    <span className="detail-label">Khung gio</span>
+                    <span className="detail-value">{booking.time}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Ngay dat</span>
+                    <span className="detail-value">
                       {new Date(booking.createdAt).toLocaleDateString("vi-VN")}
-                    </td>
-                    {role === "customer" && (
-                      <td>
-                        <button
-                          className="btn btn-danger btn-small"
-                          onClick={() => handleCancel(booking._id)}
-                        >
-                          Hủy
-                        </button>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </span>
+                  </div>
+                  {role === "owner" && (
+                    <div className="detail-item">
+                      <span className="detail-label">Khach hang</span>
+                      <span className="detail-value">{booking.userId || "N/A"}</span>
+                    </div>
+                  )}
+                </div>
+
+                {role === "customer" && (
+                  <button
+                    className="btn btn-danger btn-small booking-cancel"
+                    onClick={() => handleCancel(booking._id)}
+                  >
+                    Huy dat san
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
         </section>
       )}
