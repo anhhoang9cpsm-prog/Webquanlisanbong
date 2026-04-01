@@ -18,15 +18,15 @@ app.use("/api", authRoutes);
 
 // connect MongoDB
 mongoose.connect("mongodb://127.0.0.1:27017/sanbong")
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.log("❌ MongoDB error:", err));
 
 // test API
 app.get("/", (req, res) => {
-  res.send("Backend đang chạy 🚀");
+  res.send("✅ Backend đang chạy 🚀 - Phiên bản cập nhật");
 });
 
 // chạy server
 app.listen(5000, () => {
-  console.log("Server chạy tại http://localhost:5000");
+  console.log("🚀 Server chạy tại http://localhost:5000");
 });

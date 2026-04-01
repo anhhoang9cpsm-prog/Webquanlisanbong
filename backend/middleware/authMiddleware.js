@@ -17,7 +17,7 @@ const authMiddleware = (roles = []) => {
       const decoded = jwt.verify(token, "SECRET_KEY");
 
       // kiểm tra role nếu có yêu cầu
-      if (roles.length && !roles.includes(decoded.role)) {
+      if (roles.length > 0 && !roles.includes(decoded.role)) {
         return res.status(403).json({ message: "Không có quyền truy cập" });
       }
 

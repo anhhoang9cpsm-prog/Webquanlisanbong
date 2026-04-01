@@ -5,8 +5,21 @@ const bookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Field",
   },
-  userId: String,
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   time: String,
+  totalPrice: Number,
+  status: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Booking", bookingSchema);

@@ -25,4 +25,29 @@ router.get("/", async (req, res) => {
   res.json(fields);
 });
 
+// cập nhật sân (owner)
+router.put("/:id", authMiddleware(["owner"]), async (req, res) => {
+  try {
+    const { name, type, price, image } = req.body;
+    const field = await Field.findByIdAndUpdate(
+      req.params.id,
+      { name, type, price, image },
+      { new: true }
+    );
+    res.json({ message: "Cập nhật sân thành công", field });
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi cập nhật sân" });
+  }
+});
+
+// xoá sân (owner)
+router.delete("/:id", authMiddleware(["owner"]), async (req, res) => {
+  try {
+    await Field.findByIdAndDelete(req.params.id);
+    res.json({ message: "Xoá sân thành công" });
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi xoá sân" });
+  }
+});
+
 module.exports = router;

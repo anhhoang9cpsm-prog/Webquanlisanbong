@@ -57,53 +57,12 @@ function ManageBookings() {
     } catch (err) {
       console.error(err);
       setError("Không thể tải danh sách đặt sân");
-      // Demo data nếu backend không có
-      setBookings(generateDemoData());
     } finally {
       setLoading(false);
     }
   };
 
-  const generateDemoData = () => {
-    return [
-      {
-        _id: "1",
-        fieldId: { _id: "f1", name: "Sân Bóng A" },
-        customerId: { _id: "c1", name: "Nguyễn Văn A", email: "nva@example.com" },
-        time: "07:00 - 09:00",
-        totalPrice: 200000,
-        status: "pending",
-        createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      },
-      {
-        _id: "2",
-        fieldId: { _id: "f2", name: "Sân Bóng B" },
-        customerId: { _id: "c2", name: "Trần Thị B", email: "ttb@example.com" },
-        time: "09:00 - 11:00",
-        totalPrice: 250000,
-        status: "pending",
-        createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
-      },
-      {
-        _id: "3",
-        fieldId: { _id: "f1", name: "Sân Bóng A" },
-        customerId: { _id: "c3", name: "Phạm Văn C", email: "pvc@example.com" },
-        time: "15:00 - 17:00",
-        totalPrice: 200000,
-        status: "approved",
-        createdAt: new Date(Date.now() - 10 * 60 * 60 * 1000).toISOString(),
-      },
-      {
-        _id: "4",
-        fieldId: { _id: "f3", name: "Sân Bóng C" },
-        customerId: { _id: "c4", name: "Lê Thị D", email: "ltd@example.com" },
-        time: "19:00 - 21:00",
-        totalPrice: 180000,
-        status: "rejected",
-        createdAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
-      },
-    ];
-  };
+
 
   const handleApprove = async (bookingId) => {
     try {

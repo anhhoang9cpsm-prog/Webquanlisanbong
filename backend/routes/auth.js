@@ -8,12 +8,13 @@ const authMiddleware = require("../middleware/authMiddleware");
 // REGISTER
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { username, name, email, password, role } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
-      name,
+      name: name || username,
+      username,
       email,
       password: hashedPassword,
       role
@@ -21,7 +22,7 @@ router.post("/register", async (req, res) => {
 
     await user.save();
 
-    res.json({ message: "Đăng ký thành công" });
+    res.json({ message: "Đăng ký thành công!" });
 
   } catch (err) {
     console.log(err);
@@ -50,12 +51,14 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       "SECRET_KEY",
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     res.json({
       token,
-      role: user.role
+      role: user.role,
+      userId: user._id,
+      name: user.name || user.username
     });
 
   } catch (err) {

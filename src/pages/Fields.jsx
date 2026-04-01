@@ -270,8 +270,6 @@ function Fields() {
                   <option value="7v7">7 vs 7</option>
                   <option value="11v11">11 vs 11</option>
                   <option value="Futsal">Futsal</option>
-                  <option value="Beach">Bóng đá bãi biển</option>
-                  <option value="Khác">Khác</option>
                 </select>
               </div>
 
