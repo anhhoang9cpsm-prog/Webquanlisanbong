@@ -155,12 +155,6 @@ function ManageBookings() {
               {stats.rejected}
             </div>
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Doanh Thu</div>
-            <div className="stat-value" style={{ color: "#10B981", fontSize: "20px" }}>
-              {stats.revenue?.toLocaleString("vi-VN")} đ
-            </div>
-          </div>
         </div>
 
         {/* FILTER TABS */}
