@@ -111,29 +111,48 @@ function BookingHistory() {
 
                 <div className="booking-details">
                   <div className="detail-item">
-                    <span className="detail-label">Khung gio</span>
+                    <span className="detail-label">Khung Giờ</span>
                     <span className="detail-value">{booking.time}</span>
                   </div>
                   <div className="detail-item">
-                    <span className="detail-label">Ngay dat</span>
+                    <span className="detail-label">Ngày Đặt</span>
                     <span className="detail-value">
                       {new Date(booking.createdAt).toLocaleDateString("vi-VN")}
                     </span>
                   </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Trạng Thái</span>
+                    <span 
+                      className="detail-value" 
+                      style={{
+                        fontWeight: 600,
+                        color: booking.status === "pending" ? "#F59E0B" : 
+                               booking.status === "approved" ? "#10B981" : "#EF4444"
+                      }}
+                    >
+                      {booking.status === "pending" ? "Chờ Xác Nhận" :
+                       booking.status === "approved" ? "Đã Xác Nhận" : "Đã Từ Chối"}
+                    </span>
+                  </div>
                   {role === "owner" && (
                     <div className="detail-item">
-                      <span className="detail-label">Khach hang</span>
-                      <span className="detail-value">{booking.userId || "N/A"}</span>
+                      <span className="detail-label">Khách Hàng</span>
+                      <span className="detail-value">{booking.customerId?.name || "N/A"}</span>
                     </div>
                   )}
                 </div>
 
                 {role === "customer" && (
                   <button
-                    className="btn btn-danger btn-small booking-cancel"
+                    className={`btn btn-small booking-cancel ${booking.status === "pending" ? "btn-danger" : ""}`}
                     onClick={() => handleCancel(booking._id)}
+                    disabled={booking.status !== "pending"}
+                    style={{
+                      opacity: booking.status !== "pending" ? 0.6 : 1,
+                      cursor: booking.status !== "pending" ? "not-allowed" : "pointer"
+                    }}
                   >
-                    Huy dat san
+                    {booking.status === "pending" ? "Hủy Đặt Sân" : "Đã Đặt"}
                   </button>
                 )}
               </div>
