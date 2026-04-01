@@ -409,6 +409,47 @@ a:hover {
   margin-bottom: var(--spacing-3);
 }
 
+/* ============ STATS GRID (COMPACT) ============ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-8);
+}
+
+.stats-grid .stat-card {
+  padding: var(--spacing-4);
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  border-left: 3px solid var(--primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stats-grid .stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.stats-grid .stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--muted);
+  margin-bottom: var(--spacing-2);
+}
+
+.stats-grid .stat-value {
+  font-size: var(--font-size-2xl);
+  color: var(--primary);
+  margin-bottom: 0;
+}
+
+.stats-grid .stat-card.highlight {
+  background: var(--primary-light);
+  border-left-color: var(--primary-dark);
+}
+
 /* ============ FIELDS GRID (COMPACT) ============ */
 
 .fields-section h2,
