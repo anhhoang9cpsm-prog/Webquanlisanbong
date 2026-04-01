@@ -143,22 +143,15 @@ function Fields() {
     }
   };
 
-  const getEmptySlots = (fieldId) => {
-    // Mock: Giả sử lấy từ backend
-    // Hiện tại default tất cả slot trống
-    const emptyCount = TIME_SLOTS.length; // 8 slots
-    return emptyCount;
-  };
-
   return (
     <main className="page">
       <header className="topbar">
         <strong>Quản Lý Sân Bóng</strong>
         <nav className="navbar">
           <Link to="/owner">Dashboard</Link>
-          <Link to="/owner/requests">Quản lý đặt sân</Link>
+          <Link to="/owner/requests">Quản Lý Đặt Sân</Link>
           <Link to="/" onClick={() => localStorage.clear()}>
-            Đăng xuất
+            Đăng Xuất
           </Link>
         </nav>
       </header>
@@ -167,7 +160,7 @@ function Fields() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
           <h2 style={{ margin: 0 }}>Danh Sách Sân Bóng ({fields.length})</h2>
           <button className="btn btn-primary" onClick={() => handleOpenModal()}>
-            ➕ Thêm Sân Mới
+            Thêm Sân Mới
           </button>
         </div>
 
@@ -180,7 +173,7 @@ function Fields() {
             <h3>Chưa có sân nào</h3>
             <p>Hãy thêm sân để bắt đầu</p>
             <button className="btn btn-primary" onClick={() => handleOpenModal()}>
-              ➕ Thêm Sân Mới
+              Thêm Sân Mới
             </button>
           </div>
         ) : (
@@ -191,7 +184,6 @@ function Fields() {
                   <th>Tên Sân</th>
                   <th>Loại Sân</th>
                   <th>Giá / 2h</th>
-                  <th>Khung Giờ Trống</th>
                   <th>Ảnh</th>
                   <th>Hành Động</th>
                 </tr>
@@ -208,11 +200,6 @@ function Fields() {
                     <td className="field-price">
                       <strong>{field.price?.toLocaleString("vi-VN")} đ</strong>
                     </td>
-                    <td className="field-slots">
-                      <span className="slots-badge available">
-                        {getEmptySlots(field._id)} / 8 trống
-                      </span>
-                    </td>
                     <td className="field-image">
                       {field.image ? (
                         <img src={field.image} alt={field.name} />
@@ -226,14 +213,14 @@ function Fields() {
                         onClick={() => handleOpenModal(field)}
                         title="Sửa"
                       >
-                        ✏️ Sửa
+                        Sửa
                       </button>
                       <button
                         className="btn btn-small btn-delete"
                         onClick={() => handleDelete(field._id)}
                         title="Xoá"
                       >
-                        🗑️ Xoá
+                        Xoá
                       </button>
                     </td>
                   </tr>
@@ -251,7 +238,7 @@ function Fields() {
             <div className="modal-header">
               <h2>{editingField ? "Sửa Thông Tin Sân" : "Thêm Sân Mới"}</h2>
               <button className="modal-close" onClick={handleCloseModal}>
-                ✕
+                ×
               </button>
             </div>
 
@@ -323,7 +310,7 @@ function Fields() {
                   Hủy
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  {editingField ? "✓ Cập Nhật" : "➕ Thêm Mới"}
+                  {editingField ? "Cập Nhật" : "Thêm Mới"}
                 </button>
               </div>
             </form>

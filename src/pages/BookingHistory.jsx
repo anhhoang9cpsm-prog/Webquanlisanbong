@@ -35,25 +35,25 @@ function BookingHistory() {
       setError("");
     } catch (err) {
       console.error(err);
-      setError("Khong the tai lich su dat san");
+      setError("Không Thể Tải Lịch Sử Đặt Sân");
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = async (bookingId) => {
-    if (!window.confirm("Ban chac chan muon huy dat san nay?")) return;
+    if (!window.confirm("Bạn Chắc Chắn Muốn Hủy Đặt Sân Này?")) return;
 
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`http://localhost:5000/api/booking/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      alert("Huy dat san thanh cong");
+      alert("Hủy Đặt Sân Thành Công");
       fetchBookings();
     } catch (err) {
       console.error(err);
-      alert("Huy dat san that bai");
+      alert("Hủy Đặt Sân Thất Bại");
     }
   };
 
@@ -63,17 +63,17 @@ function BookingHistory() {
     <main className="page">
       <header className="topbar">
         <strong>
-          {role === "owner" ? "Lich Dat San" : "Lich Su Dat San"}
+          {role === "owner" ? "Lịch Đặt Sân" : "Lịch Sử Đặt Sân"}
         </strong>
         <nav className="navbar">
           <Link to={role === "owner" ? "/owner" : "/customer"}>
-            {role === "owner" ? "Dashboard" : "Trang chu"}
+            {role === "owner" ? "Dashboard" : "Trang Chủ"}
           </Link>
           <Link to={role === "owner" ? "/owner/fields" : "/customer/booking"}>
-            {role === "owner" ? "Quan ly san" : "Dat san"}
+            {role === "owner" ? "Quản Lý Sân" : "Đặt Sân"}
           </Link>
           <Link to="/" onClick={() => localStorage.clear()}>
-            Dang xuat
+            Đăng Xuất
           </Link>
         </nav>
       </header>
@@ -81,19 +81,19 @@ function BookingHistory() {
       {error && <div className="alert alert-error">{error}</div>}
 
       {loading ? (
-        <div className="loading">Dang tai...</div>
+        <div className="loading">Đang Tải...</div>
       ) : bookings.length === 0 ? (
         <div className="empty-state">
-          <h3>Chua co lich dat san</h3>
-          <p>Hay dat san ngay de bat dau</p>
+          <h3>Chưa Có Lịch Đặt Sân</h3>
+          <p>Hãy Đặt Sân Ngay Để Bắt Đầu</p>
           <Link className="btn btn-primary" to={role === "owner" ? "/owner/fields" : "/customer/booking"}>
-            {role === "owner" ? "Quan ly san" : "Dat san ngay"}
+            {role === "owner" ? "Quản Lý Sân" : "Đặt Sân Ngay"}
           </Link>
         </div>
       ) : (
         <section className="bookings-list">
           <h2 className="section-title">
-            {role === "owner" ? `Tong cong: ${bookings.length} lich dat` : `Lich su dat san (${bookings.length})`}
+            {role === "owner" ? `Tổng Cộng: ${bookings.length} Lịch Đặt` : `Lịch Sử Đặt Sân (${bookings.length})`}
           </h2>
 
           <div className="bookings-grid">

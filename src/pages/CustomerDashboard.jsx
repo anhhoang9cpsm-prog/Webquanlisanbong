@@ -4,12 +4,12 @@ function CustomerDashboard() {
 	return (
 		<main className="page">
 			<header className="topbar">
-				<strong>Customer Dashboard</strong>
+				<strong>Trang Khách Hàng</strong>
 				<nav className="navbar">
-					<Link to="/customer">Trang chu</Link>
-					<Link to="/customer/booking">Dat san</Link>
-					<Link to="/customer/history">Lich su dat san</Link>
-					<Link to="/" onClick={() => localStorage.clear()}>Dang xuat</Link>
+					<Link to="/customer">Trang Chủ</Link>
+					<Link to="/customer/booking">Đặt Sân</Link>
+					<Link to="/customer/history">Lịch Sử Đặt Sân</Link>
+					<Link to="/" onClick={() => localStorage.clear()}>Đăng Xuất</Link>
 				</nav>
 			</header>
 
@@ -27,12 +27,12 @@ function CustomerDashboard() {
 
 				<article className="stat-card">
 
-					<div className="stat-label">Lich Su Dat San</div>
-					<div className="stat-value" style={{ color: "#10B981", fontSize: "18px" }}>
-						Xem Chi Tiet
-					</div>
-					<Link className="btn btn-outline btn-small" to="/customer/history" style={{ marginTop: "12px" }}>
-						Lich Su
+				<div className="stat-label">Lịch Sử Đặt Sân</div>
+				<div className="stat-value" style={{ color: "#10B981", fontSize: "18px" }}>
+					Xem Chi Tiết
+				</div>
+				<Link className="btn btn-outline btn-small" to="/customer/history" style={{ marginTop: "12px" }}>
+					Lịch Sử
 					</Link>
 				</article>
 			</section>

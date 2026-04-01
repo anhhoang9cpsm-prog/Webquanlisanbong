@@ -165,9 +165,9 @@ function ManageBookings() {
         <strong>Quản Lý Đặt Sân</strong>
         <nav className="navbar">
           <Link to="/owner">Dashboard</Link>
-          <Link to="/owner/fields">Quản lý sân</Link>
+          <Link to="/owner/fields">Quản Lý Sân</Link>
           <Link to="/" onClick={() => localStorage.clear()}>
-            Đăng xuất
+            Đăng Xuất
           </Link>
         </nav>
       </header>

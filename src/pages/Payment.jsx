@@ -55,11 +55,11 @@ function Payment() {
         <strong>Thanh Toan</strong>
         <nav className="navbar">
           <Link to={role === "owner" ? "/owner" : "/customer"}>
-            {role === "owner" ? "Dashboard" : "Trang chu"}
+            {role === "owner" ? "Dashboard" : "Trang Chủ"}
           </Link>
-          <Link to="/customer/booking">Quay lai</Link>
+          <Link to="/customer/booking">Quay Lại</Link>
           <Link to="/" onClick={() => localStorage.clear()}>
-            Dang xuat
+            Đăng Xuất
           </Link>
         </nav>
       </header>

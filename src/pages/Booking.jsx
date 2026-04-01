@@ -111,11 +111,11 @@ function Booking() {
         <strong>Đặt Sân Bóng</strong>
         <nav className="navbar">
           <Link to={role === "owner" ? "/owner" : "/customer"}>
-            {role === "owner" ? "Dashboard" : "Trang chủ"}
+            {role === "owner" ? "Dashboard" : "Trang Chủ"}
           </Link>
-          <Link to="/customer/history">Lịch sử đặt sân</Link>
+          <Link to="/customer/history">Lịch Sử Đặt Sân</Link>
           <Link to="/" onClick={() => localStorage.clear()}>
-            Đăng xuất
+            Đăng Xuất
           </Link>
         </nav>
       </header>
