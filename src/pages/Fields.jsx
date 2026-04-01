@@ -153,20 +153,19 @@ function Fields() {
   return (
     <main className="page">
       <header className="topbar">
-        <strong>Quản Lý Sân Bóng</strong>
+        <strong>⚙️ Quản Lý Sân Bóng</strong>
         <nav className="navbar">
           <Link to="/owner">Dashboard</Link>
-          <Link to="/owner/requests">Yêu cầu đặt sân</Link>
-          <Link to="/owner/history">Lịch đặt</Link>
+          <Link to="/owner/requests">Quản lý đặt sân</Link>
           <Link to="/" onClick={() => localStorage.clear()}>
             Đăng xuất
           </Link>
         </nav>
       </header>
 
-      <section className="fields-management-container">
-        <div className="fields-header">
-          <h2>Danh Sách Sân Bóng ({fields.length})</h2>
+      <section>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+          <h2 style={{ margin: 0 }}>📋 Danh Sách Sân Bóng ({fields.length})</h2>
           <button className="btn btn-primary" onClick={() => handleOpenModal()}>
             ➕ Thêm Sân Mới
           </button>

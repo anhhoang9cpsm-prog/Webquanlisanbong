@@ -130,31 +130,30 @@ function Booking() {
           <p>Vui lòng quay lại sau</p>
         </div>
       ) : (
-        <section className="fields-grid">
-          <h2>Danh sách sân bóng ({fields.length})</h2>
-          <div className="grid">
+        <section className="booking-section">
+          <h2>⚽ Chọn Sân Bóng ({fields.length} sân)</h2>
+          <div className="fields-grid">
             {fields.map((field) => (
-              <article
+              <div
                 key={field._id}
-                className="field-card col-4 clickable"
+                className="field-card-compact"
                 onClick={() => handleSelectField(field)}
               >
-                {field.image && (
-                  <div className="field-image">
+                <div className="field-image-compact">
+                  {field.image ? (
                     <img src={field.image} alt={field.name} />
-                  </div>
-                )}
-                <div className="field-info">
-                  <h3 className="field-name">{field.name}</h3>
-                  <p className="field-type">{field.type}</p>
-                  <p className="field-price">
-                    {field.price?.toLocaleString("vi-VN")} đ / 2 tiếng
-                  </p>
-                  <button className="btn btn-primary btn-block">
-                    Chọn khung giờ
-                  </button>
+                  ) : (
+                    "⚽"
+                  )}
                 </div>
-              </article>
+                <div className="field-info-compact">
+                  <div className="field-name-compact">{field.name}</div>
+                  <div className="field-type-compact">{field.type}</div>
+                  <div className="field-price-compact">
+                    {field.price?.toLocaleString("vi-VN")} đ
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </section>
@@ -208,12 +207,6 @@ function Booking() {
                   ))}
                 </div>
               )}
-            </div>
-
-            <div className="modal-footer">
-              <button className="btn btn-outline" onClick={handleCloseModal}>
-                Đóng
-              </button>
             </div>
           </div>
         </div>

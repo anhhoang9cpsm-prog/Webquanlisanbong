@@ -4,32 +4,41 @@ function OwnerDashboard() {
 	return (
 		<main className="page">
 			<header className="topbar">
-				<strong>Trang Chủ Sân</strong>
+				<strong>Admin Dashboard</strong>
 				<nav className="navbar">
 					<Link to="/owner">Dashboard</Link>
-					<Link to="/owner/fields">Quản lý sân</Link>
-					<Link to="/owner/requests">Quản lý đặt sân</Link>
-					<Link to="/" onClick={() => localStorage.clear()}>Đăng xuất</Link>
+					<Link to="/owner/fields">Quan Ly San</Link>
+					<Link to="/owner/requests">Quan Ly Dat San</Link>
+					<Link to="/" onClick={() => localStorage.clear()}>Dang Xuat</Link>
 				</nav>
 			</header>
 
-			<section className="grid">
-				<article className="card col-4">
-					<h3>� Quản Lý Đặt Sân</h3>
-					<div className="value" style={{ color: "#dd4157" }}>12</div>
+			<section className="dashboard-grid">
+				<article className="stat-card">
+					<div style={{ fontSize: "24px", marginBottom: "8px" }}>📋</div>
+					<div className="stat-label">Yeu Cau Cho Duyet</div>
+					<div className="stat-value" style={{ color: "#F59E0B" }}>12</div>
 					<Link className="btn btn-primary btn-small" to="/owner/requests">
-						Xem chi tiết
+						Xem Chi Tiet
 					</Link>
 				</article>
 
-				<article className="card col-4">
-					<h3>🎯 Tổng Sân</h3>
-					<div className="value">8</div>
+				<article className="stat-card">
+					<div style={{ fontSize: "24px", marginBottom: "8px" }}>11</div>
+					<div className="stat-label">Tong So San</div>
+					<div className="stat-value" style={{ color: "#3B82F6" }}>8</div>
 				</article>
 
-				<article className="card col-4">
-					<h3>📊 Doanh Thu</h3>
-					<div className="value" style={{ color: "#23a26d" }}>12.5tr</div>
+				<article className="stat-card">
+					<div style={{ fontSize: "24px", marginBottom: "8px" }}>22</div>
+					<div className="stat-label">Doanh Thu Thang</div>
+					<div className="stat-value" style={{ color: "#10B981" }}>12.5tr</div>
+				</article>
+
+				<article className="stat-card">
+					<div style={{ fontSize: "24px", marginBottom: "8px" }}>33</div>
+					<div className="stat-label">Tong Don Hang</div>
+					<div className="stat-value" style={{ color: "#8B5CF6" }}>156</div>
 				</article>
 			</section>
 		</main>

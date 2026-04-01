@@ -162,7 +162,7 @@ function ManageBookings() {
   return (
     <main className="page">
       <header className="topbar">
-        <strong>Quản Lý Đặt Sân</strong>
+        <strong>📋 Quản Lý Đặt Sân</strong>
         <nav className="navbar">
           <Link to="/owner">Dashboard</Link>
           <Link to="/owner/fields">Quản lý sân</Link>
