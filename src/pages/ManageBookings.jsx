@@ -16,7 +16,6 @@ function ManageBookings() {
     pending: 0,
     approved: 0,
     rejected: 0,
-    revenue: 0,
   });
 
   useEffect(() => {
@@ -46,16 +45,11 @@ function ManageBookings() {
       const pendingCount = allBookings.filter((b) => b.status === "pending").length;
       const approvedCount = allBookings.filter((b) => b.status === "approved").length;
       const rejectedCount = allBookings.filter((b) => b.status === "rejected").length;
-      const revenue = allBookings
-        .filter((b) => b.status === "approved")
-        .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
-
       setStats({
         total: allBookings.length,
         pending: pendingCount,
         approved: approvedCount,
         rejected: rejectedCount,
-        revenue: revenue,
       });
 
       setError("");

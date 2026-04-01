@@ -9,6 +9,7 @@ function OwnerDashboard() {
 		totalFields: 0,
 		totalApproved: 0,
 		totalRejected: 0,
+		revenue: 0,
 	});
 	const [loading, setLoading] = useState(true);
 
@@ -44,12 +45,16 @@ function OwnerDashboard() {
 			const rejectedCount = bookings.filter(
 				(b) => b.status === "rejected"
 			).length;
+		const revenue = bookings
+			.filter((b) => b.status === "approved")
+			.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
-			setStats({
-				pending: pendingCount,
-				totalFields: fields.length,
-				totalApproved: approvedCount,
-				totalRejected: rejectedCount,
+		setStats({
+			pending: pendingCount,
+			totalFields: fields.length,
+			totalApproved: approvedCount,
+			totalRejected: rejectedCount,
+			revenue: revenue,
 			});
 		} catch (err) {
 			console.error(err);
@@ -102,6 +107,13 @@ function OwnerDashboard() {
 					<div className="stat-label">Yêu Cầu Bị Từ Chối</div>
 					<div className="stat-value" style={{ color: "#EF4444" }}>
 						{loading ? "-" : stats.totalRejected}
+					</div>
+				</article>
+
+				<article className="stat-card">
+					<div className="stat-label">Doanh Thu</div>
+					<div className="stat-value" style={{ color: "#10B981" }}>
+						{loading ? "-" : `${stats.revenue.toLocaleString("vi-VN")} ₫`}
 					</div>
 				</article>
 			</section>
