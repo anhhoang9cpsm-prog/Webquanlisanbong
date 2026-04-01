@@ -34,7 +34,7 @@ function ManageBookings() {
       const token = localStorage.getItem("token");
       
       // Lấy yêu cầu đặt sân
-      const res = await axios.get("http://localhost:5000/api/booking-requests", {
+      const res = await axios.get("http://localhost:5000/api/booking/booking-requests", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -69,7 +69,7 @@ function ManageBookings() {
       setActionInProgress(bookingId);
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/booking-requests/${bookingId}/approve`,
+        `http://localhost:5000/api/booking/booking-requests/${bookingId}/approve`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -88,7 +88,7 @@ function ManageBookings() {
       setActionInProgress(bookingId);
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/booking-requests/${bookingId}/reject`,
+        `http://localhost:5000/api/booking/booking-requests/${bookingId}/reject`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -24,7 +24,7 @@ function CustomerDashboard() {
 	const fetchStats = async () => {
 		try {
 			const token = localStorage.getItem("token");
-			const res = await axios.get("http://localhost:5000/api/customer/bookings", {
+			const res = await axios.get("http://localhost:5000/api/booking/customer/bookings", {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 

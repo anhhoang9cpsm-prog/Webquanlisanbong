@@ -28,7 +28,7 @@ function OwnerDashboard() {
 
 			// Fetch booking requests
 			const bookingsRes = await axios.get(
-				"http://localhost:5000/api/booking-requests",
+				"http://localhost:5000/api/booking/booking-requests",
 				{ headers: { Authorization: `Bearer ${token}` } }
 			);
 			const bookings = Array.isArray(bookingsRes.data)

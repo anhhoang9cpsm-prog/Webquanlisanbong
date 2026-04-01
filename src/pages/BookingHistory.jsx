@@ -25,7 +25,7 @@ function BookingHistory() {
 
       const endpoint = role === "owner" 
         ? "http://localhost:5000/api/booking"
-        : "http://localhost:5000/api/customer/bookings";
+        : "http://localhost:5000/api/booking/customer/bookings";
 
       const res = await axios.get(endpoint, {
         headers: { Authorization: `Bearer ${token}` },
@@ -46,7 +46,7 @@ function BookingHistory() {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/booking/${bookingId}`, {
+      await axios.delete(`http://localhost:5000/api/booking/booking/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Hủy Đặt Sân Thành Công");

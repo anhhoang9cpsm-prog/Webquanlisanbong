@@ -26,7 +26,7 @@ function Payment() {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:5000/api/booking-requests",
+        "http://localhost:5000/api/booking/booking-requests",
         {
           fieldId: bookingData.fieldId,
           time: bookingData.time,
