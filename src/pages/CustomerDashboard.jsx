@@ -16,12 +16,12 @@ function CustomerDashboard() {
 			<section className="dashboard-grid" style={{ maxWidth: "600px", margin: "0 auto" }}>
 				<article className="stat-card">
 
-					<div className="stat-label">Dat San Ngay</div>
+					<div className="stat-label">Đặt Sân Ngay</div>
 					<div className="stat-value" style={{ color: "#3B82F6", fontSize: "18px" }}>
-						Dat San
+						Đặt Sân
 					</div>
 					<Link className="btn btn-primary btn-small" to="/customer/booking" style={{ marginTop: "12px" }}>
-						Tim San
+						Tìm Sân
 					</Link>
 				</article>
 

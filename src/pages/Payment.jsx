@@ -37,11 +37,11 @@ function Payment() {
         }
       );
 
-      alert("Yeu cau dat san da duoc gui!\nAdmin se xac nhan trong vong 24 gio.");
+      alert("Yêu Cầu Đặt Sân Đã Được Gửi!\nAdmin Sẽ Xác Nhận Trong Vòng 24 Giờ.");
       navigate("/customer/history");
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Gui yeu cau dat san that bai");
+      setError(err.response?.data?.message || "Gửi Yêu Cầu Đặt Sân Thất Bại");
     } finally {
       setLoading(false);
     }
@@ -52,7 +52,7 @@ function Payment() {
   return (
     <main className="page">
       <header className="topbar">
-        <strong>Thanh Toan</strong>
+        <strong>Thanh Toán</strong>
         <nav className="navbar">
           <Link to={role === "owner" ? "/owner" : "/customer"}>
             {role === "owner" ? "Dashboard" : "Trang Chủ"}
@@ -72,7 +72,7 @@ function Payment() {
             {/* QR CODE SECTION */}
             <div className="payment-qr-card">
               <h2 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px", color: "#1F2937" }}>
-                Thanh Toan QR
+                Thanh Toán QR
               </h2>
 
               <div style={{
@@ -97,7 +97,7 @@ function Payment() {
                 </div>
 
                 <p style={{ fontSize: "14px", color: "#6B7280", margin: 0 }}>
-                  Dung may anh hoac thi dua nghan hang de quet QR code
+                  Dùng Máy Ảnh Hoặc Thí Dụa Ngân Hàng Để Quét QR Code
                 </p>
 
                 <div style={{
@@ -109,9 +109,9 @@ function Payment() {
                   color: "#4B5563",
                   lineHeight: "1.8"
                 }}>
-                  <div><strong>Chu san:</strong> Nguyen Van A</div>
-                  <div><strong>So tai khoan:</strong> 12345678</div>
-                  <div><strong>Ngan hang:</strong> MB Bank</div>
+                  <div><strong>Chủ Sân:</strong> Nguyễn Văn A</div>
+                  <div><strong>Số Tài Khoản:</strong> 12345678</div>
+                  <div><strong>Ngân Hàng:</strong> MB Bank</div>
                 </div>
 
                 {/* PAYMENT CONFIRMATION */}
@@ -142,7 +142,7 @@ function Payment() {
                         accentColor: "#3B82F6"
                       }}
                     />
-                    <span>{isPaid ? "Da xac nhan thanh toan" : "Toi da thanh toan thanh cong"}</span>
+                    <span>{isPaid ? "Đã Xác Nhận Thanh Toán" : "Tôi Đã Thanh Toán Thành Công"}</span>
                   </label>
                 </div>
               </div>
@@ -160,13 +160,13 @@ function Payment() {
                 boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
               }}>
                 <h2 style={{ fontSize: "20px", fontWeight: 700, marginBottom: "24px", color: "#1F2937", margin: 0 }}>
-                  Chi Tiet Dat San
+                  Chi Tiết Đặt Sân
                 </h2>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                   <div style={{ paddingBottom: "16px", borderBottom: "1px solid #E5E7EB" }}>
                     <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "6px" }}>
-                      San Bong
+                      Sân Bóng
                     </div>
                     <div style={{ fontSize: "18px", fontWeight: 700, color: "#1F2937" }}>
                       {bookingData.fieldName}
@@ -176,7 +176,7 @@ function Payment() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", paddingBottom: "16px", borderBottom: "1px solid #E5E7EB" }}>
                     <div>
                       <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "6px" }}>
-                        Khung gio
+                        Khung Giờ
                       </div>
                       <div style={{ fontSize: "16px", fontWeight: 700, color: "#3B82F6" }}>
                         {bookingData.timeLabel}
@@ -184,17 +184,17 @@ function Payment() {
                     </div>
                     <div>
                       <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "6px" }}>
-                        Thoi luong
+                        Thời Lượng
                       </div>
                       <div style={{ fontSize: "16px", fontWeight: 700, color: "#1F2937" }}>
-                        2 gio
+                        2 Giờ
                       </div>
                     </div>
                   </div>
 
                   <div style={{ background: "#F3F4F6", padding: "16px", borderRadius: "10px" }}>
                     <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "8px" }}>
-                      Tong tien
+                      Tổng Tiền
                     </div>
                     <div style={{ fontSize: "28px", fontWeight: 700, color: "#3B82F6" }}>
                       {bookingData.fieldPrice?.toLocaleString("vi-VN")} d
@@ -216,10 +216,10 @@ function Payment() {
                   {isPaid ? "+" : "!"}
                 </div>
                 <div style={{ fontSize: "16px", fontWeight: 700, color: isPaid ? "#059669" : "#B45309", marginBottom: "4px" }}>
-                  {isPaid ? "Thanh toan thanh cong" : "Cho thanh toan"}
+                  {isPaid ? "Thanh Toán Thành Công" : "Chờ Thanh Toán"}
                 </div>
                 <div style={{ fontSize: "13px", color: isPaid ? "#047857" : "#9A3412" }}>
-                  {isPaid ? "San sang gui yeu cau dat san" : "Hay thanh toan truoc khi tiep tuc"}
+                  {isPaid ? "Sẵn Sàng Gửi Yêu Cầu Đặt Sân" : "Hãy Thanh Toán Trước Khi Tiếp Tục"}  
                 </div>
               </div>
 
@@ -231,7 +231,7 @@ function Payment() {
                   disabled={loading}
                   style={{ flex: 1 }}
                 >
-                  Quay lai
+                  Quay Lại
                 </button>
                 <button
                   className="btn btn-primary"
@@ -239,7 +239,7 @@ function Payment() {
                   disabled={loading || !isPaid}
                   style={{ flex: 1, fontWeight: 700 }}
                 >
-                  {loading ? "Dang xu ly..." : "Xac Nhan & Gui"}
+                  {loading ? "Đang Xử Lý..." : "Xác Nhận & Gửi"}  
                 </button>
               </div>
 
@@ -254,10 +254,10 @@ function Payment() {
                 lineHeight: "1.8",
                 borderLeft: "4px solid #3B82F6"
               }}>
-                <strong style={{ color: "#1F2937" }}>Luu y:</strong><br />
-                • Thanh toan thanh cong de gui yeu cau dat san<br />
-                • Admin se xac nhan trong vong 24 gio<br />
-                • Ban se nhan thong bao qua email khi duoc xac nhan
+                <strong style={{ color: "#1F2937" }}>Lưu Ý:</strong><br />
+                • Thanh Toán Thành Công Để Gửi Yêu Cầu Đặt Sân<br />
+                • Admin Sẽ Xác Nhận Trong Vòng 24 Giờ<br />
+                • Bạn Sẽ Nhận Thông Báo Qua Email Khi Được Xác Nhận
               </div>
             </div>
           </div>

@@ -101,7 +101,7 @@ function BookingHistory() {
               <div key={booking._id} className="booking-card">
                 <div className="booking-header">
                   <div className="booking-field">
-                    <h3 className="field-name">{booking.fieldId?.name || "Khong ro"}</h3>
+                    <h3 className="field-name">{booking.fieldId?.name || "Không Rõ"}</h3>
                     <span className="field-type">{booking.fieldId?.type || "N/A"}</span>
                   </div>
                   <div className="booking-price">
