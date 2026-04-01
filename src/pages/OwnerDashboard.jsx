@@ -6,11 +6,11 @@ function OwnerDashboard() {
 			<header className="topbar">
 				<strong>Trang Chủ Sân</strong>
 				<nav className="navbar">
-  <Link to="/owner">Dashboard</Link>
-  <Link to="/owner/fields">Quản lý sân</Link>
-  <Link to="/owner/booking">Lịch đặt</Link>
-  <Link to="/">Đăng xuất</Link>
-</nav>
+					<Link to="/owner">Dashboard</Link>
+					<Link to="/owner/fields">Quản lý sân</Link>
+					<Link to="/owner/history">Lịch đặt</Link>
+					<Link to="/" onClick={() => localStorage.clear()}>Đăng xuất</Link>
+				</nav>
 			</header>
 
 			<section className="grid">

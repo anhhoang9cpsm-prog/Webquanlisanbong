@@ -2,10 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import OwnerDashboard from "c:/Users/Admin/Desktop/vah/Quanlisanbong/src/pages/Ownerdashboard";
+import OwnerDashboard from "./pages/OwnerDashboard.jsx";
 import CustomerDashboard from "./pages/CustomerDashboard.jsx";
 import Fields from "./pages/Fields.jsx";
 import Booking from "./pages/Booking.jsx";
+import BookingHistory from "./pages/BookingHistory.jsx";
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
         {/* CUSTOMER */}
         <Route path="/customer" element={<CustomerDashboard />} />
         <Route path="/customer/booking" element={<Booking />} />
+        <Route path="/customer/history" element={<BookingHistory />} />
+
+        {/* BOOKING HISTORY - BOTH ROLES */}
+        <Route path="/owner/history" element={<BookingHistory />} />
 
         {/* NOT FOUND */}
         <Route path="*" element={<h2>404 - Không tìm thấy trang</h2>} />

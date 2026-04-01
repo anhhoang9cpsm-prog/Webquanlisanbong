@@ -8,7 +8,8 @@ function CustomerDashboard() {
 				<nav className="navbar">
 					<Link to="/customer">Trang chủ</Link>
 					<Link to="/customer/booking">Đặt sân</Link>
-					<Link to="/">Đăng xuất</Link>
+					<Link to="/customer/history">Lịch sử đặt sân</Link>
+					<Link to="/" onClick={() => localStorage.clear()}>Đăng xuất</Link>
 				</nav>
 			</header>
 
@@ -24,7 +25,7 @@ function CustomerDashboard() {
 				<article className="card col-6">
 					<h3>Lịch đã đặt</h3>
 					<p>Xem lại các lịch bạn đã đặt</p>
-					<Link className="btn btn-outline" to="/history">
+					<Link className="btn btn-outline" to="/customer/history">
 						Xem lịch sử
 					</Link>
 				</article>
