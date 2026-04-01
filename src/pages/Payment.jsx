@@ -11,10 +11,8 @@ function Payment() {
   const [error, setError] = useState("");
   const [isPaid, setIsPaid] = useState(false);
 
-  // QR code image (placeholder - có thể là URL thật từ backend)
   const QR_CODE_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23fff' width='200' height='200'/%3E%3Crect fill='%23000' x='20' y='20' width='160' height='160'/%3E%3Crect fill='%23fff' x='30' y='30' width='50' height='50'/%3E%3Crect fill='%23fff' x='120' y='30' width='50' height='50'/%3E%3Crect fill='%23fff' x='30' y='120' width='50' height='50'/%3E%3C/svg%3E";
 
-  // Nếu không có bookingData, quay về booking page
   if (!bookingData) {
     navigate("/customer/booking");
     return null;
@@ -27,7 +25,6 @@ function Payment() {
 
       const token = localStorage.getItem("token");
 
-      // Gửi BOOKING REQUEST (chưa là booking chính thức)
       const res = await axios.post(
         "http://localhost:5000/api/booking-requests",
         {
@@ -40,11 +37,11 @@ function Payment() {
         }
       );
 
-      alert("✓ Yêu cầu đặt sân đã được gửi!\nAdmin sẽ xác nhận trong vòng 24 tiếng.");
+      alert("Yeu cau dat san da duoc gui!\nAdmin se xac nhan trong vong 24 gio.");
       navigate("/customer/history");
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Gửi yêu cầu đặt sân thất bại");
+      setError(err.response?.data?.message || "Gui yeu cau dat san that bai");
     } finally {
       setLoading(false);
     }
@@ -55,142 +52,213 @@ function Payment() {
   return (
     <main className="page">
       <header className="topbar">
-        <strong>Thanh Toán</strong>
+        <strong>Thanh Toan</strong>
         <nav className="navbar">
           <Link to={role === "owner" ? "/owner" : "/customer"}>
-            {role === "owner" ? "Dashboard" : "Trang chủ"}
+            {role === "owner" ? "Dashboard" : "Trang chu"}
           </Link>
-          <Link to="/customer/booking">Quay lại</Link>
+          <Link to="/customer/booking">Quay lai</Link>
           <Link to="/" onClick={() => localStorage.clear()}>
-            Đăng xuất
+            Dang xuat
           </Link>
         </nav>
       </header>
 
-      <section className="payment-container">
-        <div className="payment-card">
-          <h2>Thanh Toán và Xác Nhận Đặt Sân</h2>
-
+      <section style={{ padding: "40px 20px" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
           {error && <div className="alert alert-error">{error}</div>}
 
-          <div className="payment-grid">
-            {/* CỘT TRÁI - QR CODE */}
-            <div className="payment-qr-section">
-              <h3>Quét QR để thanh toán</h3>
-              <div className="qr-container">
-                <div className="qr-code">
-                  <img src={QR_CODE_IMAGE} alt="QR Code Thanh Toán" />
-                </div>
-                <p className="qr-note">
-                  📱 Sử dụng ứng dụng ngân hàng hoặc ví điện tử để quét QR code
-                </p>
-                <p className="qr-account">
-                  <strong>Chủ sân:</strong> Nguyễn Văn A<br />
-                  <strong>Số tài khoản:</strong> 12345678<br />
-                  <strong>Ngân hàng:</strong> MB Bank
-                </p>
-              </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", alignItems: "start" }}>
+            {/* QR CODE SECTION */}
+            <div className="payment-qr-card">
+              <h2 style={{ fontSize: "22px", fontWeight: 700, marginBottom: "24px", color: "#1F2937" }}>
+                Thanh Toan QR
+              </h2>
 
-              {!isPaid && (
-                <div className="payment-confirmation">
-                  <label className="checkbox-label">
+              <div style={{
+                background: "white",
+                padding: "32px",
+                borderRadius: "16px",
+                border: "1px solid #E5E7EB",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                gap: "20px"
+              }}>
+                <div style={{
+                  background: "#F9FAFB",
+                  padding: "24px",
+                  borderRadius: "12px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}>
+                  <img src={QR_CODE_IMAGE} alt="QR CODE" style={{ width: "180px", height: "180px" }} />
+                </div>
+
+                <p style={{ fontSize: "14px", color: "#6B7280", margin: 0 }}>
+                  Dung may anh hoac thi dua nghan hang de quet QR code
+                </p>
+
+                <div style={{
+                  background: "#F3F4F6",
+                  padding: "16px",
+                  borderRadius: "10px",
+                  textAlign: "left",
+                  fontSize: "14px",
+                  color: "#4B5563",
+                  lineHeight: "1.8"
+                }}>
+                  <div><strong>Chu san:</strong> Nguyen Van A</div>
+                  <div><strong>So tai khoan:</strong> 12345678</div>
+                  <div><strong>Ngan hang:</strong> MB Bank</div>
+                </div>
+
+                {/* PAYMENT CONFIRMATION */}
+                <div style={{
+                  marginTop: "12px",
+                  padding: "16px",
+                  background: isPaid ? "#DBEAFE" : "#FEE2E2",
+                  borderRadius: "10px",
+                  borderLeft: `4px solid ${isPaid ? "#3B82F6" : "#EF4444"}`
+                }}>
+                  <label style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    color: isPaid ? "#1D4ED8" : "#DC2626"
+                  }}>
                     <input
                       type="checkbox"
                       checked={isPaid}
                       onChange={(e) => setIsPaid(e.target.checked)}
-                      id="paid-checkbox"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        cursor: "pointer",
+                        accentColor: "#3B82F6"
+                      }}
                     />
-                    <span>✓ Tôi đã thanh toán thành công</span>
+                    <span>{isPaid ? "Da xac nhan thanh toan" : "Toi da thanh toan thanh cong"}</span>
                   </label>
                 </div>
-              )}
-
-              {isPaid && (
-                <div className="payment-success">
-                  <p className="success-message">
-                    ✓ Đã xác nhận thanh toán. Vui lòng ấn nút bên cạnh để hoàn tất!
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
 
-            {/* CỘT PHẢI - CHI TIẾT BOOKING */}
-            <div className="payment-details-section">
-              <div className="booking-summary">
-                <h3>Chi Tiết Yêu Cầu Đặt Sân</h3>
+            {/* BOOKING DETAILS SECTION */}
+            <div>
+              {/* BOOKING CARD */}
+              <div className="booking-summary-card" style={{
+                background: "white",
+                padding: "32px",
+                borderRadius: "16px",
+                border: "1px solid #E5E7EB",
+                marginBottom: "24px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
+              }}>
+                <h2 style={{ fontSize: "20px", fontWeight: 700, marginBottom: "24px", color: "#1F2937", margin: 0 }}>
+                  Chi Tiet Dat San
+                </h2>
 
-                <div className="summary-section">
-                  <div className="summary-item">
-                    <span className="label">Sân:</span>
-                    <span className="value">{bookingData.fieldName}</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <div style={{ paddingBottom: "16px", borderBottom: "1px solid #E5E7EB" }}>
+                    <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "6px" }}>
+                      San Bong
+                    </div>
+                    <div style={{ fontSize: "18px", fontWeight: 700, color: "#1F2937" }}>
+                      {bookingData.fieldName}
+                    </div>
                   </div>
-                  <div className="summary-item">
-                    <span className="label">Loại sân:</span>
-                    <span className="value">-</span>
-                  </div>
-                </div>
 
-                <div className="summary-section">
-                  <div className="summary-item">
-                    <span className="label">Khung giờ:</span>
-                    <span className="value time">{bookingData.timeLabel}</span>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", paddingBottom: "16px", borderBottom: "1px solid #E5E7EB" }}>
+                    <div>
+                      <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "6px" }}>
+                        Khung gio
+                      </div>
+                      <div style={{ fontSize: "16px", fontWeight: 700, color: "#3B82F6" }}>
+                        {bookingData.timeLabel}
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "6px" }}>
+                        Thoi luong
+                      </div>
+                      <div style={{ fontSize: "16px", fontWeight: 700, color: "#1F2937" }}>
+                        2 gio
+                      </div>
+                    </div>
                   </div>
-                  <div className="summary-item">
-                    <span className="label">Thời lượng:</span>
-                    <span className="value">2 tiếng</span>
-                  </div>
-                </div>
 
-                <div className="summary-section total">
-                  <div className="summary-item">
-                    <span className="label">Tổng tiền:</span>
-                    <span className="value total-price">
-                      {bookingData.fieldPrice?.toLocaleString("vi-VN")} đ
-                    </span>
+                  <div style={{ background: "#F3F4F6", padding: "16px", borderRadius: "10px" }}>
+                    <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "8px" }}>
+                      Tong tien
+                    </div>
+                    <div style={{ fontSize: "28px", fontWeight: 700, color: "#3B82F6" }}>
+                      {bookingData.fieldPrice?.toLocaleString("vi-VN")} d
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="payment-status">
-                <h4>Trạng Thái Thanh Toán</h4>
-                <div className={`status-indicator ${isPaid ? "paid" : "unpaid"}`}>
-                  {isPaid ? (
-                    <>
-                      <span className="status-icon">✓</span>
-                      <span className="status-text">Đã Thanh Toán</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="status-icon">⏳</span>
-                      <span className="status-text">Chờ Thanh Toán</span>
-                    </>
-                  )}
+              {/* STATUS CARD */}
+              <div style={{
+                background: isPaid ? "#ECFDF5" : "#FEF3C7",
+                border: `2px solid ${isPaid ? "#10B981" : "#F59E0B"}`,
+                padding: "24px",
+                borderRadius: "12px",
+                textAlign: "center",
+                marginBottom: "24px"
+              }}>
+                <div style={{ fontSize: "32px", marginBottom: "8px" }}>
+                  {isPaid ? "+" : "!"}
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: 700, color: isPaid ? "#059669" : "#B45309", marginBottom: "4px" }}>
+                  {isPaid ? "Thanh toan thanh cong" : "Cho thanh toan"}
+                </div>
+                <div style={{ fontSize: "13px", color: isPaid ? "#047857" : "#9A3412" }}>
+                  {isPaid ? "San sang gui yeu cau dat san" : "Hay thanh toan truoc khi tiep tuc"}
                 </div>
               </div>
 
-              <div className="payment-actions">
+              {/* ACTION BUTTONS */}
+              <div style={{ display: "flex", gap: "12px" }}>
                 <button
                   className="btn btn-outline"
                   onClick={() => navigate("/customer/booking")}
                   disabled={loading}
+                  style={{ flex: 1 }}
                 >
-                  Quay lại
+                  Quay lai
                 </button>
                 <button
-                  className="btn btn-primary btn-large"
+                  className="btn btn-primary"
                   onClick={handleConfirmPayment}
                   disabled={loading || !isPaid}
+                  style={{ flex: 1, fontWeight: 700 }}
                 >
-                  {loading ? "Đang xử lý..." : "✓ Xác Nhận & Gửi Yêu Cầu"}
+                  {loading ? "Dang xu ly..." : "Xac Nhan & Gui"}
                 </button>
               </div>
 
-              <p className="payment-note">
-                📌 <strong>Lưu ý:</strong><br />
-                • Thanh toán thành công để gửi yêu cầu đặt sân<br />
-                • Admin sẽ xác nhận và phản hồi trong vòng 24 tiếng<br />
-                • Bạn sẽ nhận thông báo qua email khi được xác nhận
-              </p>
+              {/* NOTES */}
+              <div style={{
+                marginTop: "24px",
+                padding: "16px",
+                background: "#F9FAFB",
+                borderRadius: "10px",
+                fontSize: "13px",
+                color: "#6B7280",
+                lineHeight: "1.8",
+                borderLeft: "4px solid #3B82F6"
+              }}>
+                <strong style={{ color: "#1F2937" }}>Luu y:</strong><br />
+                • Thanh toan thanh cong de gui yeu cau dat san<br />
+                • Admin se xac nhan trong vong 24 gio<br />
+                • Ban se nhan thong bao qua email khi duoc xac nhan
+              </div>
             </div>
           </div>
         </div>

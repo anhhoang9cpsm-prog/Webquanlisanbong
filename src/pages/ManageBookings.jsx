@@ -162,7 +162,7 @@ function ManageBookings() {
   return (
     <main className="page">
       <header className="topbar">
-        <strong>📋 Quản Lý Đặt Sân</strong>
+        <strong>Quản Lý Đặt Sân</strong>
         <nav className="navbar">
           <Link to="/owner">Dashboard</Link>
           <Link to="/owner/fields">Quản lý sân</Link>
@@ -201,9 +201,6 @@ function ManageBookings() {
 
         {/* FILTER TABS */}
         <div className="filter-section">
-          <h3 style={{ margin: "0 0 16px 0", fontSize: "14px", color: "#5f6b85" }}>
-            HIỂN THỊ
-          </h3>
           <div className="filter-tabs">
             <button
               className={`filter-btn ${filter === "all" ? "active" : ""}`}
@@ -215,19 +212,19 @@ function ManageBookings() {
               className={`filter-btn ${filter === "pending" ? "active" : ""}`}
               onClick={() => setFilter("pending")}
             >
-              ⏳ Chờ Xác Nhận ({stats.pending})
+              Chờ Xác Nhận ({stats.pending})
             </button>
             <button
               className={`filter-btn ${filter === "approved" ? "active" : ""}`}
               onClick={() => setFilter("approved")}
             >
-              ✓ Đã Duyệt ({stats.approved})
+              Đã Duyệt ({stats.approved})
             </button>
             <button
               className={`filter-btn ${filter === "rejected" ? "active" : ""}`}
               onClick={() => setFilter("rejected")}
             >
-              ✕ Đã Từ Chối ({stats.rejected})
+              Đã Từ Chối ({stats.rejected})
             </button>
           </div>
         </div>
@@ -239,7 +236,7 @@ function ManageBookings() {
         {/* BOOKINGS LIST */}
         {!loading && filteredBookings.length === 0 ? (
           <div className="empty-state">
-            <h3>📭 Không có đặt sân</h3>
+            <h3>Không có đặt sân</h3>
             <p>
               {filter === "pending" && "Không có yêu cầu chờ xác nhận"}
               {filter === "approved" && "Không có đặt sân đã duyệt"}
@@ -258,12 +255,12 @@ function ManageBookings() {
                 <div className="booking-card-header">
                   <div className="booking-title">
                     <h3 className="booking-field-name">
-                      ⚽ {booking.fieldId?.name || "Sân không xác định"}
+                      {booking.fieldId?.name || "Sân không xác định"}
                     </h3>
                     <span className={`status-badge status-${booking.status}`}>
-                      {booking.status === "pending" && "⏳ Chờ xác nhận"}
-                      {booking.status === "approved" && "✓ Đã duyệt"}
-                      {booking.status === "rejected" && "✕ Đã từ chối"}
+                      {booking.status === "pending" && "Chờ xác nhận"}
+                      {booking.status === "approved" && "Đã duyệt"}
+                      {booking.status === "rejected" && "Đã từ chối"}
                     </span>
                   </div>
                   <div className="booking-date">
@@ -275,13 +272,13 @@ function ManageBookings() {
                 <div className="booking-details">
                   <div className="detail-group">
                     <div className="detail-item">
-                      <span className="detail-label">👤 Khách hàng:</span>
+                      <span className="detail-label">Khách hàng:</span>
                       <span className="detail-value">
                         {booking.customerId?.name || "N/A"}
                       </span>
                     </div>
                     <div className="detail-item">
-                      <span className="detail-label">📧 Email:</span>
+                      <span className="detail-label">Email:</span>
                       <span className="detail-value">
                         {booking.customerId?.email || "N/A"}
                       </span>
@@ -290,13 +287,13 @@ function ManageBookings() {
 
                   <div className="detail-group">
                     <div className="detail-item">
-                      <span className="detail-label">🕐 Khung giờ:</span>
+                      <span className="detail-label">Khung giờ:</span>
                       <span className="detail-value booking-time">
                         {booking.time}
                       </span>
                     </div>
                     <div className="detail-item">
-                      <span className="detail-label">💰 Giá:</span>
+                      <span className="detail-label">Giá:</span>
                       <span className="detail-value price">
                         {booking.totalPrice?.toLocaleString("vi-VN")} đ
                       </span>
@@ -317,7 +314,7 @@ function ManageBookings() {
                           <span className="loading-spinner"></span> Đang xử lý...
                         </>
                       ) : (
-                        "✓ Duyệt"
+                        "Duyệt"
                       )}
                     </button>
                     <button
@@ -330,7 +327,7 @@ function ManageBookings() {
                           <span className="loading-spinner"></span> Đang xử lý...
                         </>
                       ) : (
-                        "✕ Từ chối"
+                        "Từ chối"
                       )}
                     </button>
                   </div>
@@ -338,13 +335,13 @@ function ManageBookings() {
 
                 {booking.status === "approved" && (
                   <div className="approval-info approved">
-                    <strong>✓ Đã duyệt</strong> - Khách hàng có thể đén sân
+                    <strong>Đã duyệt</strong> - Khách hàng có thể đến sân
                   </div>
                 )}
 
                 {booking.status === "rejected" && (
                   <div className="approval-info rejected">
-                    <strong>✕ Đã từ chối</strong> - Khách hàng được thông báo
+                    <strong>Đã từ chối</strong> - Khách hàng được thông báo
                   </div>
                 )}
               </div>

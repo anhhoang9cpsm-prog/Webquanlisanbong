@@ -174,35 +174,56 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--spacing-8);
-  padding: var(--spacing-4) var(--spacing-6);
-  background: white;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border-bottom: 3px solid var(--primary);
+  padding: 18px 32px;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #E5E7EB;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .topbar strong {
-  font-size: var(--font-size-xl);
-  color: var(--primary);
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F2937;
+  letter-spacing: -0.5px;
 }
 
 .navbar {
   display: flex;
-  gap: var(--spacing-4);
+  gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .navbar a {
-  padding: var(--spacing-2) var(--spacing-3);
-  font-size: var(--font-size-sm);
+  padding: 10px 16px;
+  font-size: 14px;
   font-weight: 500;
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  color: #4B5563;
+  background: transparent;
+  border: 1px solid transparent;
 }
 
 .navbar a:hover {
-  background: var(--primary-light);
-  color: var(--primary-dark);
+  background: #F3F4F6;
+  color: #3B82F6;
+  border: 1px solid #E5E7EB;
+}
+
+.navbar a:last-child {
+  margin-left: auto;
+  color: #EF4444;
+  border: 1px solid #FEE2E2;
+}
+
+.navbar a:last-child:hover {
+  background: #FEE2E2;
+  color: #DC2626;
 }
 
 /* ============ FORMS ============ */
@@ -965,13 +986,28 @@ tbody tr:last-child td {
   }
 
   .topbar {
-    flex-direction: column;
-    gap: var(--spacing-4);
-    text-align: center;
+    padding: 16px 20px;
+    flex-wrap: wrap;
+  }
+
+  .topbar strong {
+    font-size: 18px;
+    flex-basis: 100%;
+    margin-bottom: 12px;
   }
 
   .navbar {
-    justify-content: center;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .navbar a {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .navbar a:last-child {
+    margin-left: auto;
   }
 
   .dashboard-grid {

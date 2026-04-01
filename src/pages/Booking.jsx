@@ -131,7 +131,7 @@ function Booking() {
         </div>
       ) : (
         <section className="booking-section">
-          <h2>⚽ Chọn Sân Bóng ({fields.length} sân)</h2>
+          <h2>Chọn Sân Bóng ({fields.length} sân)</h2>
           <div className="fields-grid">
             {fields.map((field) => (
               <div
@@ -143,7 +143,7 @@ function Booking() {
                   {field.image ? (
                     <img src={field.image} alt={field.name} />
                   ) : (
-                    "⚽"
+                    "[No image]"
                   )}
                 </div>
                 <div className="field-info-compact">
