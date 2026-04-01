@@ -2,13 +2,26 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// Time slots từ 7h đến 23h, mỗi slot 2 tiếng
+const TIME_SLOTS = [
+  { time: "07:00", label: "07:00 - 09:00" },
+  { time: "09:00", label: "09:00 - 11:00" },
+  { time: "11:00", label: "11:00 - 13:00" },
+  { time: "13:00", label: "13:00 - 15:00" },
+  { time: "15:00", label: "15:00 - 17:00" },
+  { time: "17:00", label: "17:00 - 19:00" },
+  { time: "19:00", label: "19:00 - 21:00" },
+  { time: "21:00", label: "21:00 - 23:00" },
+];
+
 function Booking() {
   const navigate = useNavigate();
   const [fields, setFields] = useState([]);
-  const [time, setTime] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [bookingId, setBookingId] = useState(null);
+  const [selectedField, setSelectedField] = useState(null);
+  const [slotStatuses, setSlotStatuses] = useState({});
+  const [loadingSlots, setLoadingSlots] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,32 +46,61 @@ function Booking() {
     }
   };
 
-  const handleBooking = async (fieldId) => {
-    if (!time.trim()) {
-      alert("Vui lòng nhập khung giờ");
-      return;
-    }
+  const handleSelectField = async (field) => {
+    setSelectedField(field);
+    await checkSlotAvailability(field._id);
+  };
 
+  const checkSlotAvailability = async (fieldId) => {
     try {
+      setLoadingSlots(true);
       const token = localStorage.getItem("token");
-      setBookingId(fieldId);
-
-      const res = await axios.post(
-        "http://localhost:5000/api/booking",
-        { fieldId, time },
+      
+      // API check xem những slot nào đã được đặt
+      const res = await axios.get(
+        `http://localhost:5000/api/booking/available/${fieldId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      alert("Đặt sân thành công! ✓");
-      setTime("");
-      setBookingId(null);
+      // Tạo object ghi nhớ trạng thái của mỗi slot
+      const statusMap = {};
+      TIME_SLOTS.forEach(slot => {
+        statusMap[slot.time] = res.data.includes(slot.time) ? "booked" : "available";
+      });
+      setSlotStatuses(statusMap);
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Đặt sân thất bại");
-      setBookingId(null);
+      // Nếu API không tồn tại, default tất cả là available
+      const statusMap = {};
+      TIME_SLOTS.forEach(slot => {
+        statusMap[slot.time] = "available";
+      });
+      setSlotStatuses(statusMap);
+    } finally {
+      setLoadingSlots(false);
     }
+  };
+
+  const handleSelectTime = (slot) => {
+    if (slotStatuses[slot.time] === "booked") return;
+
+    // Lưu thông tin booking tạm thời
+    const bookingData = {
+      fieldId: selectedField._id,
+      fieldName: selectedField.name,
+      fieldPrice: selectedField.price,
+      time: slot.time,
+      timeLabel: slot.label,
+    };
+
+    // Chuyển đến trang thanh toán
+    navigate("/payment", { state: bookingData });
+  };
+
+  const handleCloseModal = () => {
+    setSelectedField(null);
   };
 
   const role = localStorage.getItem("role");
@@ -78,70 +120,104 @@ function Booking() {
         </nav>
       </header>
 
-      <section className="booking-container">
-        <div className="booking-filter">
-          <h2>Chọn khung giờ đặt sân</h2>
-          <div className="time-input-group">
-            <input
-              type="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="time-input"
-              placeholder="Chọn giờ"
-            />
-            <span className="time-hint">Định dạng: HH:MM</span>
+      {error && <div className="alert alert-error">{error}</div>}
+
+      {loading ? (
+        <div className="loading">Đang tải danh sách sân...</div>
+      ) : fields.length === 0 ? (
+        <div className="empty-state">
+          <h3>Chưa có sân nào</h3>
+          <p>Vui lòng quay lại sau</p>
+        </div>
+      ) : (
+        <section className="fields-grid">
+          <h2>Danh sách sân bóng ({fields.length})</h2>
+          <div className="grid">
+            {fields.map((field) => (
+              <article
+                key={field._id}
+                className="field-card col-4 clickable"
+                onClick={() => handleSelectField(field)}
+              >
+                {field.image && (
+                  <div className="field-image">
+                    <img src={field.image} alt={field.name} />
+                  </div>
+                )}
+                <div className="field-info">
+                  <h3 className="field-name">{field.name}</h3>
+                  <p className="field-type">{field.type}</p>
+                  <p className="field-price">
+                    {field.price?.toLocaleString("vi-VN")} đ / 2 tiếng
+                  </p>
+                  <button className="btn btn-primary btn-block">
+                    Chọn khung giờ
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* MODAL CHỌN KHUNG GIỜ */}
+      {selectedField && (
+        <div className="modal-overlay" onClick={handleCloseModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{selectedField.name}</h2>
+              <button className="modal-close" onClick={handleCloseModal}>
+                ✕
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <p className="modal-subtitle">
+                Giá: <strong>{selectedField.price?.toLocaleString("vi-VN")} đ</strong> / 2 tiếng
+              </p>
+
+              {loadingSlots ? (
+                <div className="loading">Đang kiểm tra khung giờ...</div>
+              ) : (
+                <div className="time-slots-grid">
+                  {TIME_SLOTS.map((slot) => (
+                    <button
+                      key={slot.time}
+                      className={`time-slot ${slotStatuses[slot.time]}`}
+                      onClick={() => handleSelectTime(slot)}
+                      disabled={slotStatuses[slot.time] === "booked"}
+                      title={
+                        slotStatuses[slot.time] === "booked"
+                          ? "Khung giờ này đã đặt"
+                          : "Chọn khung giờ này"
+                      }
+                    >
+                      <div className="slot-time">{slot.label}</div>
+                      <div className="slot-status">
+                        {slotStatuses[slot.time] === "booked" ? (
+                          <>
+                            <span className="status-badge booked">Đã đặt</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="status-badge available">Còn trống</span>
+                          </>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn btn-outline" onClick={handleCloseModal}>
+                Đóng
+              </button>
+            </div>
           </div>
         </div>
-
-        {error && <div className="alert alert-error">{error}</div>}
-
-        {loading ? (
-          <div className="loading">Đang tải danh sách sân...</div>
-        ) : fields.length === 0 ? (
-          <div className="empty-state">
-            <h3>Chưa có sân nào</h3>
-            <p>Vui lòng quay lại sau</p>
-          </div>
-        ) : (
-          <section className="fields-grid">
-            <h3>Danh sách sân bóng ({fields.length})</h3>
-            <div className="grid">
-              {fields.map((field) => (
-                <article key={field._id} className="field-card col-4">
-                  {field.image && (
-                    <div className="field-image">
-                      <img src={field.image} alt={field.name} />
-                    </div>
-                  )}
-                  <div className="field-info">
-                    <h3 className="field-name">{field.name}</h3>
-                    <p className="field-type">{field.type}</p>
-                    <p className="field-price">
-                      {field.price?.toLocaleString("vi-VN")} đ / giờ
-                    </p>
-
-                    {time && (
-                      <p className="selected-time">
-                        ✓ Giờ chọn: <strong>{time}</strong>
-                      </p>
-                    )}
-
-                    <button
-                      className={`btn btn-primary btn-block ${
-                        bookingId === field._id ? "loading" : ""
-                      }`}
-                      onClick={() => handleBooking(field._id)}
-                      disabled={!time || bookingId === field._id}
-                    >
-                      {bookingId === field._id ? "Đang xử lý..." : "Đặt sân"}
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-      </section>
+      )}
     </main>
   );
 }

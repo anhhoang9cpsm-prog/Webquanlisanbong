@@ -7,6 +7,7 @@ import CustomerDashboard from "./pages/CustomerDashboard.jsx";
 import Fields from "./pages/Fields.jsx";
 import Booking from "./pages/Booking.jsx";
 import BookingHistory from "./pages/BookingHistory.jsx";
+import Payment from "./pages/Payment.jsx";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
         <Route path="/customer" element={<CustomerDashboard />} />
         <Route path="/customer/booking" element={<Booking />} />
         <Route path="/customer/history" element={<BookingHistory />} />
+
+        {/* PAYMENT */}
+        <Route path="/payment" element={<Payment />} />
 
         {/* BOOKING HISTORY - BOTH ROLES */}
         <Route path="/owner/history" element={<BookingHistory />} />
