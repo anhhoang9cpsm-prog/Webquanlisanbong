@@ -20,6 +20,7 @@ function Booking() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedField, setSelectedField] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
   const [slotStatuses, setSlotStatuses] = useState({});
   const [loadingSlots, setLoadingSlots] = useState(false);
 
@@ -48,26 +49,30 @@ function Booking() {
 
   const handleSelectField = async (field) => {
     setSelectedField(field);
-    await checkSlotAvailability(field._id);
+    setSelectedDate(null);
+    setSlotStatuses({});
   };
 
-  const checkSlotAvailability = async (fieldId) => {
+  const handleDateChange = async (date) => {
+    setSelectedDate(date);
+    if (!selectedField || !date) return;
+    await checkSlotAvailability(selectedField._id, date);
+  };
+
+  const checkSlotAvailability = async (fieldId, date) => {
     try {
       setLoadingSlots(true);
-      const token = localStorage.getItem("token");
-      
+
       // API check xem những slot nào đã được đặt
       const res = await axios.get(
-        `http://localhost:5000/api/booking/available/${fieldId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        `http://localhost:5000/api/booking/check-availability/${fieldId}/${date}`
       );
 
       // Tạo object ghi nhớ trạng thái của mỗi slot
       const statusMap = {};
+      const bookedTimes = res.data.bookedTimes || [];
       TIME_SLOTS.forEach(slot => {
-        statusMap[slot.time] = res.data.includes(slot.time) ? "booked" : "available";
+        statusMap[slot.time] = bookedTimes.includes(slot.time) ? "booked" : "available";
       });
       setSlotStatuses(statusMap);
     } catch (err) {
@@ -85,12 +90,17 @@ function Booking() {
 
   const handleSelectTime = (slot) => {
     if (slotStatuses[slot.time] === "booked") return;
+    if (!selectedDate) {
+      alert("Vui lòng chọn ngày trước!");
+      return;
+    }
 
     // Lưu thông tin booking tạm thời
     const bookingData = {
       fieldId: selectedField._id,
       fieldName: selectedField.name,
       fieldPrice: selectedField.price,
+      date: selectedDate,
       time: slot.time,
       timeLabel: slot.label,
     };
@@ -175,7 +185,32 @@ function Booking() {
                 Giá: <strong>{selectedField.price?.toLocaleString("vi-VN")} đ</strong> / 2 tiếng
               </p>
 
-              {loadingSlots ? (
+              <div style={{ marginBottom: "20px" }}>
+                <label style={{ display: "block", fontSize: "14px", fontWeight: 600, marginBottom: "8px", color: "#374151" }}>
+                  Chọn Ngày *
+                </label>
+                <input
+                  type="date"
+                  value={selectedDate || ""}
+                  onChange={(e) => handleDateChange(e.target.value)}
+                  min={new Date().toISOString().split("T")[0]}
+                  style={{
+                    width: "100%",
+                    padding: "10px 12px",
+                    border: "2px solid #D1D5DB",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    boxSizing: "border-box"
+                  }}
+                />
+              </div>
+
+              {!selectedDate ? (
+                <div style={{ textAlign: "center", color: "#9CA3AF", padding: "20px" }}>
+                  Vui lòng chọn ngày để xem khung giờ
+                </div>
+              ) : loadingSlots ? (
                 <div className="loading">Đang kiểm tra khung giờ...</div>
               ) : (
                 <div className="time-slots-grid">
@@ -207,6 +242,7 @@ function Booking() {
                   ))}
                 </div>
               )}
+              </div>
             </div>
           </div>
         </div>

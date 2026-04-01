@@ -29,6 +29,7 @@ function Payment() {
         "http://localhost:5000/api/booking/booking-requests",
         {
           fieldId: bookingData.fieldId,
+          date: bookingData.date,
           time: bookingData.time,
           totalPrice: bookingData.fieldPrice,
         },
@@ -170,6 +171,15 @@ function Payment() {
                     </div>
                     <div style={{ fontSize: "18px", fontWeight: 700, color: "#1F2937" }}>
                       {bookingData.fieldName}
+                    </div>
+                  </div>
+
+                  <div style={{ paddingBottom: "16px", borderBottom: "1px solid #E5E7EB" }}>
+                    <div style={{ fontSize: "12px", textTransform: "uppercase", color: "#6B7280", fontWeight: 600, marginBottom: "6px" }}>
+                      Ngày Đặt
+                    </div>
+                    <div style={{ fontSize: "16px", fontWeight: 700, color: "#1F2937" }}>
+                      {new Date(bookingData.date).toLocaleDateString("vi-VN")}
                     </div>
                   </div>
 

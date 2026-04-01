@@ -6,11 +6,12 @@ const authMiddleware = require("../middleware/authMiddleware");
 // Tạo yêu cầu đặt sân (customer)
 router.post("/booking-requests", authMiddleware(["customer"]), async (req, res) => {
   try {
-    const { fieldId, time, totalPrice } = req.body;
+    const { fieldId, date, time, totalPrice } = req.body;
 
     const booking = new Booking({
       fieldId,
       customerId: req.user.id,
+      date,
       time,
       totalPrice,
       status: "pending",
@@ -90,6 +91,28 @@ router.delete("/booking/:id", authMiddleware(), async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Lỗi hủy đặt sân" });
+  }
+});
+
+// Check availability cho một sân vào một ngày
+router.get("/check-availability/:fieldId/:date", async (req, res) => {
+  try {
+    const { fieldId, date } = req.params;
+
+    // Lấy tất cả booking cho fieldId này vào ngày này với status approved
+    const bookedSlots = await Booking.find({
+      fieldId: fieldId,
+      date: date,
+      status: "approved"
+    });
+
+    // Extract time từ bookings
+    const bookedTimes = bookedSlots.map((b) => b.time);
+
+    res.json({ bookedTimes });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Lỗi kiểm tra khung giờ" });
   }
 });
 

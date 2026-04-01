@@ -111,6 +111,12 @@ function BookingHistory() {
 
                 <div className="booking-details">
                   <div className="detail-item">
+                    <span className="detail-label">Ngày Sử Dụng</span>
+                    <span className="detail-value">
+                      {booking.date ? new Date(booking.date + "T00:00:00").toLocaleDateString("vi-VN") : "N/A"}
+                    </span>
+                  </div>
+                  <div className="detail-item">
                     <span className="detail-label">Khung Giờ</span>
                     <span className="detail-value">{booking.time}</span>
                   </div>

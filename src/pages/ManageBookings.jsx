@@ -16,6 +16,7 @@ function ManageBookings() {
     pending: 0,
     approved: 0,
     rejected: 0,
+    revenue: 0,
   });
 
   useEffect(() => {
@@ -45,12 +46,16 @@ function ManageBookings() {
       const pendingCount = allBookings.filter((b) => b.status === "pending").length;
       const approvedCount = allBookings.filter((b) => b.status === "approved").length;
       const rejectedCount = allBookings.filter((b) => b.status === "rejected").length;
+      const revenue = allBookings
+        .filter((b) => b.status === "approved")
+        .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
       setStats({
         total: allBookings.length,
         pending: pendingCount,
         approved: approvedCount,
         rejected: rejectedCount,
+        revenue: revenue,
       });
 
       setError("");
@@ -154,6 +159,12 @@ function ManageBookings() {
             <div className="stat-label">Đã Từ Chối</div>
             <div className="stat-value" style={{ color: "#5f6b85" }}>
               {stats.rejected}
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Doanh Thu</div>
+            <div className="stat-value" style={{ color: "#10B981", fontSize: "20px" }}>
+              {stats.revenue?.toLocaleString("vi-VN")} đ
             </div>
           </div>
         </div>

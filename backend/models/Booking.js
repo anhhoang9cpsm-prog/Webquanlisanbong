@@ -9,7 +9,8 @@ const bookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  time: String,
+  date: String, // Format: YYYY-MM-DD
+  time: String, // Format: HH:00
   totalPrice: Number,
   status: {
     type: String,
